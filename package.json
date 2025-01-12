@@ -1,0 +1,105 @@
+{
+    "name": "blank_",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "postinstall": "node-prune",
+        "test": "jest",
+        "watch": "jest --watchAll --maxWorkers=4",
+        "prettier": "prettier . --write --cache --cache-location ./node_modules/.cache/prettier | grep -v \"unchanged\" | xargs",
+        "stylelint": "stylelint --ignore-path .gitignore \"**/*.css\" --cache --cache-location ./node_modules/.cache/stylelint",
+        "eslint": "eslint . --cache --cache-location ./node_modules/.cache/eslint",
+        "markdownlint": "markdownlint . --fix --ignore-path .gitignore --quiet",
+        "lint": "npm run prettier | npm run stylelint | npm run eslint | npm run markdownlint",
+        "dev": "webpack serve --open --config webpack.dev.js",
+        "build": "npx jest && webpack --mode=production --config webpack.common.js",
+        "open": "open-cli ./dist/index.html",
+        "clean": "git rm -r --cached dist",
+        "predist": "npx jest && git push origin --delete gh-pages ; npm run build",
+        "dist": "git add -f dist && git commit dist -m \"Release\" && git subtree push --prefix dist origin gh-pages",
+        "postdist": "npm run clean && git reset HEAD^"
+    },
+    "keywords": [],
+    "author": "vicpues",
+    "license": "ISC",
+    "description": "blank_",
+    "devDependencies": {
+        "@babel/core": "^7.26.0",
+        "@babel/preset-env": "^7.26.0",
+        "@eslint/compat": "^1.2.4",
+        "@eslint/js": "^9.15.0",
+        "@types/jest": "^29.5.14",
+        "babel-jest": "^29.7.0",
+        "babel-loader": "^9.2.1",
+        "css-loader": "^7.1.2",
+        "cssnano": "^7.0.6",
+        "eslint": "^9.15.0",
+        "eslint-config-prettier": "^9.1.0",
+        "globals": "^15.12.0",
+        "html-loader": "^5.1.0",
+        "html-webpack-plugin": "^5.6.0",
+        "jest": "^29.7.0",
+        "markdownlint": "^0.37.3",
+        "markdownlint-cli": "^0.43.0",
+        "mini-css-extract-plugin": "^2.9.1",
+        "node-prune": "^1.0.2",
+        "open-cli": "^8.0.0",
+        "postcss": "^8.4.49",
+        "postcss-cli": "^11.0.0",
+        "postcss-import": "^16.1.0",
+        "postcss-loader": "^8.1.1",
+        "postcss-normalize": "^13.0.1",
+        "postcss-preset-env": "^10.1.1",
+        "prettier": "^3.3.3",
+        "style-loader": "^4.0.0",
+        "stylelint": "^16.11.0",
+        "stylelint-config-recommended": "^14.0.1",
+        "webpack": "^5.94.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.0.4"
+    },
+    "prettier": {
+        "trailingComma": "all",
+        "singleQuote": false,
+        "tabWidth": 4,
+        "overrides": [
+            {
+                "files": [
+                    "*.{css,scss,sass}",
+                    "*.html"
+                ],
+                "options": {
+                    "tabWidth": 2
+                }
+            }
+        ]
+    },
+    "stylelint": {
+        "extends": [
+            "stylelint-config-recommended"
+        ]
+    },
+    "browserslist": [
+        "defaults"
+    ],
+    "babel": {
+        "presets": [
+            [
+                "@babel/preset-env",
+                {
+                    "targets": {
+                        "node": "current"
+                    }
+                }
+            ]
+        ]
+    },
+    "postcss": {
+        "plugins": [
+            "postcss-import",
+            "cssnano",
+            "postcss-preset-env",
+            "postcss-normalize"
+        ]
+    }
+}
