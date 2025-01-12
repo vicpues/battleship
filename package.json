@@ -1,5 +1,5 @@
 {
-    "name": "blank_",
+    "name": "battleship",
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
@@ -22,7 +22,7 @@
     "keywords": [],
     "author": "vicpues",
     "license": "ISC",
-    "description": "blank_",
+    "description": "A simple battleship game",
     "devDependencies": {
         "@babel/core": "^7.26.0",
         "@babel/preset-env": "^7.26.0",
