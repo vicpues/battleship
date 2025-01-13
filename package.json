@@ -6,7 +6,7 @@
         "postinstall": "node-prune",
         "test": "jest",
         "watch": "jest --watchAll --maxWorkers=4",
-        "prettier": "prettier . --write --cache --cache-location ./node_modules/.cache/prettier | grep -v \"unchanged\" | xargs",
+        "prettier": "prettier . '!**/*.md' --write --cache --cache-location ./node_modules/.cache/prettier | grep -v \"unchanged\" | xargs",
         "stylelint": "stylelint --ignore-path .gitignore \"**/*.css\" --cache --cache-location ./node_modules/.cache/stylelint",
         "eslint": "eslint . --cache --cache-location ./node_modules/.cache/eslint",
         "markdownlint": "markdownlint . --fix --ignore-path .gitignore --quiet",
