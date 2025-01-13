@@ -2,7 +2,7 @@
 
 - [_] Functionality
 
-  - [_] Ship class
+  - [x] Ship class
   - [_] Gameboard class
   - [_] Player class
 
