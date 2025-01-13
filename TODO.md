@@ -24,5 +24,6 @@
 - [_] Extra credit
 
   - [_] Implement drag n drop for placing ships
+  - [_] Add country selection window and give ships accurate names
   - [_] Add 2 player hotseat mode
   - [_] AI improvements
