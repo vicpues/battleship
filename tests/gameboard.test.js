@@ -55,8 +55,40 @@ describe("Gameboard", () => {
         });
     });
 
+    describe("Ship placement", () => {
+        let rot = Gameboard.rotations;
+        let shipObj = { length: 5 };
+        let board;
+        beforeAll(() => {
+            board = new Gameboard(10);
+        });
+
+        it("Forbids placing ships outside the board", () => {
+            expect(() => {
+                board.placeShip(shipObj, -1, 0, rot.DOWN);
+            }).toThrow("X");
+            expect(() => {
+                board.placeShip(shipObj, 0, -1, rot.DOWN);
+            }).toThrow("Y");
+        });
+        it("Forbids ships from spilling over the right side", () => {
+            expect(() => {
+                board.placeShip(shipObj, 9, 0, rot.ACROSS);
+            }).toThrow("right");
+        });
+        it("Forbids ships from spilling over the bottom side ", () => {
+            expect(() => {
+                board.placeShip(shipObj, 0, 9, rot.DOWN);
+            }).toThrow("bottom");
+        });
+        it("Forbids placing ships on top of each other", () => {
+            expect(() => {
+                board.placeShip(shipObj, 0, 0, rot.ACROSS);
+                board.placeShip(shipObj, 0, 2, rot.DOWN);
+            }).toThrow("already");
+        });
+    });
     // Receive attack
-    // Place ships in specific coordinates
     // Keep track of missed shots
     // Report if all ships have been sunk
 });
