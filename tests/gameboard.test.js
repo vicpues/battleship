@@ -59,7 +59,7 @@ describe("Gameboard", () => {
         let rot = Gameboard.rotations;
         let shipObj = { length: 5 };
         let board;
-        beforeAll(() => {
+        beforeEach(() => {
             board = new Gameboard(10);
         });
 
@@ -88,7 +88,34 @@ describe("Gameboard", () => {
             }).toThrow("already");
         });
     });
-    // Receive attack
-    // Keep track of missed shots
+
+    // Keep track of ships and their hits
+
+    describe("Attacks", () => {
+        let board;
+        beforeEach(() => {
+            board = new Gameboard(10);
+            board.placeShip({ length: 5 }, 0, 0, Gameboard.rotations.DOWN);
+        });
+
+        it("Forbids shots outside the board", () => {
+            expect(() => board.attack(-1, 0)).toThrow("X");
+            expect(() => board.attack(0, -1)).toThrow("Y");
+        });
+        it("Forbids checking squares outside the board", () => {
+            expect(() => board.isHit(-1, 0)).toThrow("X");
+            expect(() => board.isHit(0, -1)).toThrow("Y");
+        });
+        it("Registers a hit on a square", () => {
+            board.attack(0, 0);
+            expect(board.isHit(0, 0)).toBe(true);
+        });
+        it("Forbids attacking an already attacked cell", () => {
+            board.attack(0, 0);
+            expect(() => {
+                board.attack(0, 0);
+            }).toThrow(Error);
+        });
+    });
     // Report if all ships have been sunk
 });

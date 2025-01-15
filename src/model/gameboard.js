@@ -52,7 +52,36 @@ export default class Gameboard {
         this.#apply(move, (cell) => cell.setTo(shipObj));
     }
 
+    /** Attempts to attack a square
+     * @param {number} xPos X coordinate of the attack
+     * @param {number} yPos Y coordinate of the attack
+     */
+    attack(xPos, yPos) {
+        this.#checkSquare(xPos, yPos);
+        const cell = this.#board[xPos][yPos];
+        if (cell.isHit) throw new Error("That cell has been attacked already");
+        cell.hit();
+    }
+
+    /** Returns `true` if the cell at (`xPos`, `yPos`) has been attacked
+     * @param {number} xPos X coordinate of the cell
+     * @param {number} yPos Y coordinate of the cell
+     * @returns {boolean}
+     */
+    isHit(xPos, yPos) {
+        this.#checkSquare(xPos, yPos);
+        const cell = this.#board[xPos][yPos];
+        return cell.isHit;
+    }
+
     // Private methods
+
+    #checkSquare(xPos, yPos) {
+        if (xPos < 0 || xPos >= this.#width)
+            throw new RangeError("X must be between 0 and board width");
+        if (yPos < 0 || yPos >= this.#height)
+            throw new RangeError("Y must be between 0 and board width");
+    }
 
     /** Applies callback to each cell in the move
      * @param {Move} move The move whose cells we want to access
@@ -68,14 +97,12 @@ export default class Gameboard {
         }
     }
 
-    /** Throws an error if a move is invalid @param {Move} move */
     #checkPlacement(move) {
         this.#checkBelowZero(move);
         this.#checkSpillover(move);
         this.#checkCollisions(move);
     }
 
-    /** Throws an error if any coords in the move are < 0 @param {Move} move */
     #checkBelowZero(move) {
         if (move.xPos < 0)
             throw new RangeError("X coordinate must be higher than 0");
