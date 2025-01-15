@@ -10,7 +10,7 @@
         "stylelint": "stylelint --ignore-path .gitignore \"**/*.css\" --cache --cache-location ./node_modules/.cache/stylelint",
         "eslint": "eslint . --cache --cache-location ./node_modules/.cache/eslint",
         "markdownlint": "markdownlint . --fix --ignore-path .gitignore --quiet",
-        "lint": "npm run prettier | npm run stylelint | npm run eslint | npm run markdownlint",
+        "lint": "npm run prettier --silent ; npm run stylelint --silent ; npm run eslint --silent ; npm run markdownlint --silent",
         "dev": "webpack serve --open --config webpack.dev.js",
         "build": "npx jest && webpack --mode=production --config webpack.common.js",
         "open": "open-cli ./dist/index.html",
