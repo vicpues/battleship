@@ -1,4 +1,5 @@
 import Gameboard from "../src/model/gameboard.js";
+import Ship from "../src/model/ship.js";
 
 describe("Gameboard", () => {
     describe("Instantiation", () => {
@@ -95,7 +96,8 @@ describe("Gameboard", () => {
         let board;
         beforeEach(() => {
             board = new Gameboard(10);
-            board.placeShip({ length: 5 }, 0, 0, Gameboard.rotations.DOWN);
+            let ship = new Ship(5);
+            board.placeShip(ship, 0, 0, Gameboard.rotations.DOWN);
         });
 
         it("Forbids shots outside the board", () => {
