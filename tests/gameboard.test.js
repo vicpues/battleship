@@ -117,6 +117,15 @@ describe("Gameboard", () => {
             board.attack(1, 0);
             expect(board.shipAt(0, 0).isSunk).toBe(true);
         });
+        it("Reports when not all ships are sunk", () => {
+            board.attack(0, 0);
+            expect(board.allShipsSunk).toBe(false);
+        });
+        it("Reports when all ships are sunk", () => {
+            board.attack(0, 0);
+            board.attack(1, 0);
+            expect(board.allShipsSunk).toBe(true);
+        });
     });
 
     describe("Attacks", () => {
@@ -144,5 +153,4 @@ describe("Gameboard", () => {
             expect(() => board.attack(0, 0)).toThrow(Error);
         });
     });
-    // Report if all ships have been sunk
 });

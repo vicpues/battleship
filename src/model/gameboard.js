@@ -40,6 +40,14 @@ export default class Gameboard {
         return [...this.#shipList];
     }
 
+    /** Returns `true` if all ships on the board are sunk, otherwise returns `false`*/
+    get allShipsSunk() {
+        for (const ship of this.#shipList) {
+            if (!ship.isSunk) return false;
+        }
+        return true;
+    }
+
     // Public instance methods
 
     /** Places a ship at the given coordinates with the given rotation
