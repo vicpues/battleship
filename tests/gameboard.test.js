@@ -84,7 +84,7 @@ describe("Gameboard", () => {
         it("Forbids placing ships on top of each other", () => {
             expect(() => {
                 board.placeShip(shipObj, 0, 0, rot.ACROSS);
-                board.placeShip(shipObj, 0, 2, rot.DOWN);
+                board.placeShip(shipObj, 2, 0, rot.DOWN);
             }).toThrow("already");
         });
     });
