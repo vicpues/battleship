@@ -114,9 +114,7 @@ describe("Gameboard", () => {
         });
         it("Forbids attacking an already attacked cell", () => {
             board.attack(0, 0);
-            expect(() => {
-                board.attack(0, 0);
-            }).toThrow(Error);
+            expect(() => board.attack(0, 0)).toThrow(Error);
         });
     });
     // Report if all ships have been sunk
