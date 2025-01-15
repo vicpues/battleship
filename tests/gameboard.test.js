@@ -90,7 +90,34 @@ describe("Gameboard", () => {
         });
     });
 
-    // Keep track of ships and their hits
+    describe("Ships", () => {
+        let board;
+        let ship;
+        beforeEach(() => {
+            board = new Gameboard(10);
+            ship = new Ship(2);
+            board.placeShip(ship, 0, 0, Gameboard.rotations.ACROSS);
+        });
+
+        it("Can add and get a list of ships", () => {
+            expect(board.shipList).toEqual([ship]);
+        });
+        it("Can identify an empty square", () => {
+            expect(board.shipAt(0, 1)).toBeNull();
+        });
+        it("Can identify a ship on a square", () => {
+            expect(board.shipAt(0, 0)).toEqual(ship);
+        });
+        it("Can find the number of hits on a ship", () => {
+            board.attack(0, 0);
+            expect(board.shipAt(0, 0).hits).toEqual(1);
+        });
+        it("Can identify if a ship is sunk", () => {
+            board.attack(0, 0);
+            board.attack(1, 0);
+            expect(board.shipAt(0, 0).isSunk).toBe(true);
+        });
+    });
 
     describe("Attacks", () => {
         let board;

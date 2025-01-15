@@ -3,6 +3,7 @@ export default class Gameboard {
     #height;
     #width;
     #board;
+    #shipList = [];
 
     /** Create a new Gameboard with the given size
      * @param {number} width The width of the board
@@ -34,6 +35,11 @@ export default class Gameboard {
         return this.#height;
     }
 
+    /** A list of `Ship` objects on the board @returns {[Ship]} */
+    get shipList() {
+        return [...this.#shipList];
+    }
+
     // Public instance methods
 
     /** Places a ship at the given coordinates with the given rotation
@@ -50,6 +56,17 @@ export default class Gameboard {
         const move = new Move({ length: shipObj.length, xPos, yPos, rotation });
         this.#checkPlacement(move);
         this.#apply(move, (cell) => cell.setTo(shipObj));
+        this.#shipList.push(shipObj);
+    }
+
+    /** Returns the Ship object at the given coordinates, or `null` if there is none
+     * @param {number} xPos X coordinate of the cell
+     * @param {number} yPos Y coordinate of the cell
+     * @returns {Ship|null}
+     */
+    shipAt(xPos, yPos) {
+        this.#checkSquare(xPos, yPos);
+        return this.#board[xPos][yPos].read;
     }
 
     /** Attempts to attack a square
@@ -60,7 +77,10 @@ export default class Gameboard {
         this.#checkSquare(xPos, yPos);
         const cell = this.#board[xPos][yPos];
         if (cell.isHit) throw new Error("That cell has been attacked already");
+
         cell.hit();
+        const ship = cell.read;
+        if (ship !== null) ship.hit();
     }
 
     /** Returns `true` if the cell at (`xPos`, `yPos`) has been attacked
@@ -170,7 +190,9 @@ class Move {
 }
 
 function createBoard(width, height) {
-    return new Array(width).fill(new Array(height).fill(new Cell()));
+    return new Array(width)
+        .fill()
+        .map(() => new Array(height).fill().map(() => new Cell()));
 }
 
 function checkDimensions(width, height) {
