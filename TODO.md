@@ -1,10 +1,10 @@
 # To-do list
 
-- [_] Functionality
+- [x] Functionality
 
   - [x] Ship class
-  - [_] Gameboard class
-  - [_] Player class
+  - [x] Gameboard class
+  - [x] Player class
 
 - [_] UI
 
