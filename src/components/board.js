@@ -8,8 +8,8 @@ export default class Board {
         this.height = height;
     }
 
-    /** Creates the board element and returns it */
-    render() {
+    /** Creates the board element from a board object and returns it */
+    render(boardObj) {
         const boardElement = document.createElement("div");
 
         boardElement.classList.add("board");
@@ -18,7 +18,9 @@ export default class Board {
 
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                boardElement.appendChild(createCell(x, y));
+                const hasShip = boardObj.shipAt(x, y) !== null;
+                const isHit = boardObj.isHit(x, y);
+                boardElement.appendChild(createCell(x, y, hasShip, isHit));
             }
         }
         return boardElement;
@@ -26,10 +28,12 @@ export default class Board {
 }
 
 /** Creates a simple cell element with the provided x/y data and returns it */
-function createCell(x, y) {
-    const cellElement = document.createElement("button");
-    cellElement.classList.add("cell");
-    cellElement.dataset.x = x;
-    cellElement.dataset.y = y;
-    return cellElement;
+function createCell(x, y, hasShip, isHit) {
+    const cell = document.createElement("button");
+    cell.classList.add("cell");
+    if (hasShip) cell.classList.add("has-ship");
+    if (isHit) cell.classList.add("is-hit");
+    cell.dataset.x = x;
+    cell.dataset.y = y;
+    return cell;
 }
