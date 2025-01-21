@@ -3,3 +3,4 @@
 @import "./reset.css";
 @import "./general.css";
 @import "./components/board";
+@import "./components/player";
