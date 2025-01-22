@@ -25,5 +25,9 @@
 
   - [_] Implement drag n drop for placing ships
   - [_] Add country selection window and give ships accurate names
+  - [_] Add different ship images depending on country
   - [_] Add 2 player hotseat mode
   - [_] AI improvements
+  - [_] Forbid placing ships right next to each other and reveal invalid cells
+  - [_] Add extra maps with different sizes / terrain obstacles
+  - [_] ? Add extra abilities like bombs, sonar etc.
