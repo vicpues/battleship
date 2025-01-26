@@ -22,3 +22,9 @@
     }
   }
 }
+
+/* Conditional classes */
+
+.current .board {
+  filter: brightness(50%) contrast(70%);
+}

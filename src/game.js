@@ -9,6 +9,11 @@ import Player from "./model/player";
 
 // Global functions
 let updateMessage;
+let getCurrentPlayerObj;
+let getCurrentPlayerDom;
+
+// Global state variables
+let currentTurn;
 
 /** Starts a game of battleship */
 export default function startGame() {
@@ -16,11 +21,11 @@ export default function startGame() {
     const game = createGame(boardSize, boardSize);
     const dom = cacheDom();
 
-    bindGlobals(dom);
+    bindGlobals(dom, game);
 
     for (let i = 0; i < game.players.length; i++) {
         $placeShipsRandomly(game.players[i]);
-        renderBoard(dom.players[i], game.players[i].board);
+        renderBoard(dom.players[i], game.players[i]);
         bindPlayerEvents(dom.players[i], game.players[i]);
     }
 }
@@ -41,6 +46,7 @@ function cacheDom() {
     /** @param {HTMLElement} playerElement */
     function cachePlayerDom(playerElement) {
         return {
+            player: playerElement,
             name: playerElement.querySelector(".name"),
             board: playerElement.querySelector(".board"),
         };
@@ -64,20 +70,26 @@ function createGame(boardWidth, boardHeight) {
 }
 
 /** Assigns the global state functions based on the intial state of the game */
-function bindGlobals(dom) {
+function bindGlobals(dom, game) {
+    currentTurn = 0;
     updateMessage = (message) => (dom.message.textContent = message);
+    getCurrentPlayerObj = () => game.players[currentTurn % 2];
+    getCurrentPlayerDom = () => dom.players[currentTurn % 2];
 }
 
 /** Creates a Board html element from a board obj and updates it in the playerDom
  * @param {HTMLElement} playerDom
  * @param {PlayerObj} playerObj
  */
-function renderBoard(playerDom, boardObj) {
-    const { width, height } = boardObj;
-    const newBoard = new BoardDom(width, height).render(boardObj);
+function renderBoard(playerDom, playerObj) {
+    const { width, height } = playerObj.board;
+    const newBoard = new BoardDom(width, height).render(playerObj.board);
     if (playerDom.board === null) playerDom.name.after(newBoard);
     else playerDom.board.replaceWith(newBoard);
     playerDom.board = newBoard;
+    if (playerObj === getCurrentPlayerObj()) {
+        playerDom.player.classList.add("current");
+    }
 }
 
 /** Takes in a Player obj and places ships randomly on their board */
@@ -105,23 +117,36 @@ function $placeShipsRandomly(playerObj) {
 function bindPlayerEvents(playerDom, playerObj) {
     playerDom.board.addEventListener(
         "click",
-        createAttackHandler(playerDom.board, playerObj.board),
+        createAttackHandler(playerDom, playerObj),
     );
 }
 
 // Event handlers
 
-function createAttackHandler(boardDom, boardObj) {
+function createAttackHandler(playerDom, playerObj) {
+    const wrongTurnMessage = `${playerDom.name.textContent}, it's your turn. You can't attack your own board!`;
     return function attackHandler(event) {
         try {
+            if (getCurrentPlayerObj() === playerObj) {
+                throw new Error(wrongTurnMessage);
+            }
             const cell = event.target;
             const xPos = Number(cell.dataset.x);
             const yPos = Number(cell.dataset.y);
-            boardObj.attack(xPos, yPos);
-            BoardDom.updateCell(boardDom, boardObj, xPos, yPos);
+            playerObj.board.attack(xPos, yPos);
+            BoardDom.updateCell(playerDom.board, playerObj.board, xPos, yPos);
             updateMessage("");
+            switchTurn();
         } catch (e) {
             updateMessage(e.message);
         }
     };
+}
+
+// Game flow
+
+function switchTurn() {
+    getCurrentPlayerDom().player.classList.toggle("current");
+    currentTurn++;
+    getCurrentPlayerDom().player.classList.toggle("current");
 }
