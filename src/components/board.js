@@ -6,6 +6,7 @@ export default class Board {
     constructor(width, height) {
         this.width = width;
         this.height = height;
+        this.boardElement = null;
     }
 
     /** Creates the board element from a board object and returns it */
@@ -24,6 +25,16 @@ export default class Board {
             }
         }
         return boardElement;
+    }
+
+    /** Updates the cell at (x, y) with its new status in the boardObj object */
+    static updateCell(boardDom, boardObj, x, y) {
+        const cellPosition = y * boardObj.width + x;
+        const oldCell = boardDom.children.item(cellPosition);
+        const hasShip = boardObj.shipAt(x, y) !== null;
+        const isHit = boardObj.isHit(x, y);
+        const newCell = createCell(x, y, hasShip, isHit);
+        oldCell.replaceWith(newCell);
     }
 }
 

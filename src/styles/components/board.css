@@ -7,9 +7,11 @@
     margin: -1px 0 0 -1px;
     border: 1px solid black;
     background-color: #0051ff;
+    cursor: pointer;
 
     &.is-hit {
       background-color: #2784ff;
+      cursor: default;
     }
     &.has-ship {
       background-color: #b8b8b8;
