@@ -11,9 +11,12 @@ import Player from "./model/player";
 let updateMessage;
 let getCurrentPlayerObj;
 let getCurrentPlayerDom;
+let getOtherPlayerObj;
+let playerHasWon;
 
 // Global state variables
 let currentTurn;
+let gameIsFrozen;
 
 /** Starts a game of battleship */
 export default function startGame() {
@@ -55,16 +58,26 @@ function cacheDom() {
 
 /** Returns an object with an array of new Player objects */
 function createGame(boardWidth, boardHeight) {
-    const createPlayer = (boardWidth, boardHeight, playerType) => {
+    const createPlayer = (boardWidth, boardHeight, playerType, name) => {
         const board = new BoardObj(boardWidth, boardHeight);
-        const player = new PlayerObj(playerType, board);
+        const player = new PlayerObj(playerType, board, name);
         return player;
     };
 
     return {
         players: [
-            createPlayer(boardWidth, boardHeight, Player.types.HUMAN),
-            createPlayer(boardWidth, boardHeight, Player.types.COMPUTER),
+            createPlayer(
+                boardWidth,
+                boardHeight,
+                Player.types.HUMAN,
+                "Player One",
+            ),
+            createPlayer(
+                boardWidth,
+                boardHeight,
+                Player.types.COMPUTER,
+                "Player Two",
+            ),
         ],
     };
 }
@@ -72,9 +85,12 @@ function createGame(boardWidth, boardHeight) {
 /** Assigns the global state functions based on the intial state of the game */
 function bindGlobals(dom, game) {
     currentTurn = 0;
+    gameIsFrozen = false;
     updateMessage = (message) => (dom.message.textContent = message);
     getCurrentPlayerObj = () => game.players[currentTurn % 2];
     getCurrentPlayerDom = () => dom.players[currentTurn % 2];
+    getOtherPlayerObj = () => game.players[(currentTurn + 1) % 2];
+    playerHasWon = () => getOtherPlayerObj().board.allShipsSunk;
 }
 
 /** Creates a Board html element from a board obj and updates it in the playerDom
@@ -124,9 +140,12 @@ function bindPlayerEvents(playerDom, playerObj) {
 // Event handlers
 
 function createAttackHandler(playerDom, playerObj) {
-    const wrongTurnMessage = `${playerDom.name.textContent}, it's your turn. You can't attack your own board!`;
+    const wrongTurnMessage = `${playerObj.name}, it's your turn. You can't attack your own board!`;
     return function attackHandler(event) {
         try {
+            if (gameIsFrozen) {
+                return;
+            }
             if (getCurrentPlayerObj() === playerObj) {
                 throw new Error(wrongTurnMessage);
             }
@@ -136,7 +155,11 @@ function createAttackHandler(playerDom, playerObj) {
             playerObj.board.attack(xPos, yPos);
             BoardDom.updateCell(playerDom.board, playerObj.board, xPos, yPos);
             updateMessage("");
-            switchTurn();
+            if (playerHasWon()) {
+                victoryHandler(playerObj);
+            } else {
+                switchTurn();
+            }
         } catch (e) {
             updateMessage(e.message);
         }
@@ -149,4 +172,10 @@ function switchTurn() {
     getCurrentPlayerDom().player.classList.toggle("current");
     currentTurn++;
     getCurrentPlayerDom().player.classList.toggle("current");
+}
+
+/** Handles the results of a player's victory */
+function victoryHandler(winnerObj) {
+    gameIsFrozen = true;
+    updateMessage(`All ships are sunk. ${winnerObj.name} wins!`);
 }

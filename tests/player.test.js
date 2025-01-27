@@ -16,6 +16,9 @@ describe("Creation", () => {
         expect(() => new Player(types.HUMAN)).toThrow("Gameboard");
         expect(() => new Player(types.HUMAN, null)).toThrow("Gameboard");
     });
+    it("Can be initialized with name", () => {
+        expect(() => new Player(types.HUMAN, board, "Nagumo")).not.toThrow();
+    });
 });
 
 describe("Properties", () => {
@@ -29,5 +32,12 @@ describe("Properties", () => {
     });
     it("Has a functioning board", () => {
         expect(player.board.attack).not.toBeUndefined();
+    });
+    it("Sets default name if none is provided", () => {
+        expect(player.name).toBe("no name");
+    });
+    it("Can set name", () => {
+        player.name = "Nagumo";
+        expect(player.name).toBe("Nagumo");
     });
 });

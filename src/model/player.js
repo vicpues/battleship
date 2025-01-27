@@ -5,11 +5,12 @@ export default class Player {
      * @param {"human"|"computer"} type
      * @param {Gameboard} board
      */
-    constructor(type, board) {
+    constructor(type, board, name) {
         checkType(type);
         checkBoard(board);
         this.#type = type;
         this.#board = board;
+        this.name = name !== undefined ? name : "no name";
     }
 
     // Private properties
