@@ -8,10 +8,21 @@
 
 - [_] UI
 
-  - [_] Main game driver module that handles flow of the game
-  - [_] DOM interactions / updates
-    - [_] Preliminary styling
-  - [_] Integrate game logic and DOM
+  - [x] Main game driver module that handles flow of the game
+  - [x] DOM interactions / updates
+    - [x] Preliminary styling
+  - [x] Integrate game logic and DOM
+  - [_] Add AI for computer
+  - [_] Set Human vs. computer as default gamemode
+  - [_] Add some way for Human player to place ships
+
+- [_] Basic config
+  - [_] Button to start another game
+  - [_] Settings that *don't* require a restart
+    - [_] Edit player name
+    - [_] Edit ship name
+  - [_] Settings that require restart
+    - [_] Edit board size
 
 - [_] Styling
 
@@ -24,6 +35,8 @@
 - [_] Extra credit
 
   - [_] Implement drag n drop for placing ships
+  - [_] Add flavor text for scoring hits / sinking ships
+  - [_] Display current turn as hour (00:00) for each battle
   - [_] Add country selection window and give ships accurate names
   - [_] Add different ship images depending on country
   - [_] Add 2 player hotseat mode
