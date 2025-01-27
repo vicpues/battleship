@@ -1,55 +1,55 @@
-import Gameboard from "../src/model/gameboard.js";
+import Board from "../src/model/board.js";
 import Ship from "../src/model/ship.js";
 
 describe("Gameboard", () => {
     describe("Instantiation", () => {
         it("Requires width or height", () => {
             expect(() => {
-                new Gameboard();
+                new Board();
             }).toThrow("Width");
         });
 
         describe("Size", () => {
             it("Can set width", () => {
-                expect(new Gameboard(3).width).toBe(3);
+                expect(new Board(3).width).toBe(3);
             });
             it("Does not accept width below 2", () => {
                 expect(() => {
-                    new Gameboard(1);
+                    new Board(1);
                 }).toThrow("Width");
             });
             it("Width must be a number", () => {
                 expect(() => {
-                    new Gameboard("hello");
+                    new Board("hello");
                 }).toThrow("Width");
             });
             it("Width is read-only", () => {
                 expect(() => {
-                    const board = new Gameboard(3);
+                    const board = new Board(3);
                     board.width = 4;
                 }).toThrow(TypeError);
             });
             it("Can set width & height", () => {
-                expect(new Gameboard(3, 4).height).toBe(4);
+                expect(new Board(3, 4).height).toBe(4);
             });
             it("Does not accept height below 2", () => {
                 expect(() => {
-                    new Gameboard(3, 1);
+                    new Board(3, 1);
                 }).toThrow("Height");
             });
             it("Height must be a number", () => {
                 expect(() => {
-                    new Gameboard(2, "3");
+                    new Board(2, "3");
                 }).toThrow("Height");
             });
             it("Height is read-only", () => {
                 expect(() => {
-                    const board = new Gameboard(3, 3);
+                    const board = new Board(3, 3);
                     board.height = 4;
                 }).toThrow(TypeError);
             });
             it("If given one parameter, sets width & height to it", () => {
-                const board = new Gameboard(3);
+                const board = new Board(3);
                 expect(board.width).toBe(3);
                 expect(board.height).toBe(3);
             });
@@ -57,11 +57,11 @@ describe("Gameboard", () => {
     });
 
     describe("Ship placement", () => {
-        let rot = Gameboard.rotations;
+        let rot = Board.rotations;
         let shipObj = { length: 5 };
-        let board;
+        let board = new Board(10);
         beforeEach(() => {
-            board = new Gameboard(10);
+            board = new Board(10);
         });
 
         it("Forbids placing ships outside the board", () => {
@@ -94,9 +94,9 @@ describe("Gameboard", () => {
         let board;
         let ship;
         beforeEach(() => {
-            board = new Gameboard(10);
+            board = new Board(10);
             ship = new Ship(2);
-            board.placeShip(ship, 0, 0, Gameboard.rotations.ACROSS);
+            board.placeShip(ship, 0, 0, Board.rotations.ACROSS);
         });
 
         it("Can add and get a list of ships", () => {
@@ -131,9 +131,9 @@ describe("Gameboard", () => {
     describe("Attacks", () => {
         let board;
         beforeEach(() => {
-            board = new Gameboard(10);
+            board = new Board(10);
             let ship = new Ship(5);
-            board.placeShip(ship, 0, 0, Gameboard.rotations.DOWN);
+            board.placeShip(ship, 0, 0, Board.rotations.DOWN);
         });
 
         it("Forbids shots outside the board", () => {

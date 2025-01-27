@@ -1,4 +1,5 @@
-import Gameboard from "./gameboard";
+import Gameboard from "./board";
+import Ship from "./ship";
 
 export default class Player {
     /** Create a player of the game, with their own board
@@ -26,6 +27,31 @@ export default class Player {
 
     get board() {
         return this.#board;
+    }
+
+    /** Takes in a Player obj and places ships randomly on their board */
+    placeShipsRandomly() {
+        const shipLengths = [5, 4, 3, 2, 2];
+        const rotations = [
+            Gameboard.rotations.DOWN,
+            Gameboard.rotations.ACROSS,
+        ];
+
+        let shipsAmount = 0;
+        while (shipsAmount < 5) {
+            const length = shipLengths[shipsAmount];
+            const ship = new Ship(length);
+            try {
+                const xPos = Math.floor(Math.random() * this.#board.width);
+                const yPos = Math.floor(Math.random() * this.#board.height);
+                const rot =
+                    rotations[Math.floor(Math.random() * rotations.length)];
+                this.#board.placeShip(ship, xPos, yPos, rot);
+                shipsAmount++;
+            } catch {
+                continue;
+            }
+        }
     }
 
     // Static properties

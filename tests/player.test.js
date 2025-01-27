@@ -1,10 +1,10 @@
 import Player from "../src/model/player";
-import Gameboard from "../src/model/gameboard";
+import Board from "../src/model/board";
 
 const types = Player.types;
 let board;
 beforeEach(() => {
-    board = new Gameboard(10);
+    board = new Board(10);
 });
 
 describe("Creation", () => {

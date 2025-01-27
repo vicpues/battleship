@@ -1,3 +1,5 @@
+import { GameError } from "../errors";
+
 export default class Gameboard {
     // Private variables
     #height;
@@ -84,7 +86,8 @@ export default class Gameboard {
     attack(xPos, yPos) {
         this.#checkSquare(xPos, yPos);
         const cell = this.#board[xPos][yPos];
-        if (cell.isHit) throw new Error("That cell has been attacked already");
+        if (cell.isHit)
+            throw new GameError("That cell has been attacked already");
 
         cell.hit();
         const ship = cell.read;
@@ -143,18 +146,18 @@ export default class Gameboard {
             move.rotation === Gameboard.rotations.ACROSS &&
             move.xPos + move.length > this.#width
         )
-            throw new RangeError("Ship is spilling over the right side");
+            throw new GameError("Ship is spilling over the right side");
         if (
             move.rotation === Gameboard.rotations.DOWN &&
             move.yPos + move.length > this.#height
         )
-            throw new RangeError("Ship is spilling over the bottom side");
+            throw new GameError("Ship is spilling over the bottom side");
     }
 
     #checkCollisions(move) {
         const callback = (cell) => {
             if (cell.read !== null)
-                throw new Error("There's already a ship there");
+                throw new GameError("There's already a ship there");
         };
         this.#apply(move, callback);
     }

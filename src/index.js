@@ -1,4 +1,4 @@
 import "./styles/main.css";
-import startGame from "./game";
+import startGame from "./controller";
 
 startGame();
