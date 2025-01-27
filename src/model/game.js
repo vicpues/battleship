@@ -1,6 +1,7 @@
 // Data objects
 import Board from "./board";
 import Player from "./player";
+import Computer from "./computer";
 
 export default class Game {
     /** Creates an empty Game instance, without any players. use `.addPlayer` to add them */
@@ -42,11 +43,18 @@ export default class Game {
         this.#turn++;
     }
 
-    /** Adds a player with the provided parameters */
-    addPlayer(width, height, type) {
+    /** Adds a human player with a board that is `width` x `height` cells large */
+    addPlayer(width, height) {
         const board = new Board(width, height);
-        const player = new Player(type, board);
+        const player = new Player(board);
         this.players.push(player);
+    }
+
+    /** Adds an AI player with a board that is `width` x `height` cells large */
+    addComputer(width, height) {
+        const board = new Board(width, height);
+        const computer = new Computer(board);
+        this.players.push(computer);
     }
 
     /** Returns true if any player had all their ships sunk */
@@ -56,7 +64,4 @@ export default class Game {
         }
         return false;
     }
-
-    // Static properties
-    static playerTypes = Player.types;
 }

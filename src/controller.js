@@ -10,8 +10,8 @@ let game = new Game();
 
 /** Starts a game of battleship */
 export default function startGame() {
-    game.addPlayer(10, 10, Game.playerTypes.HUMAN);
-    game.addPlayer(10, 10, Game.playerTypes.COMPUTER);
+    game.addPlayer(10, 10);
+    game.addComputer(10, 10);
 
     dom.markCurrentPlayer(0);
 

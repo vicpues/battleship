@@ -19,11 +19,16 @@ describe("Game driver", () => {
         });
 
         describe("Adding players", () => {
+            const playerArgs = [10, 10];
             it("Can add players to player list", () => {
-                const playerArgs = [10, 10, Game.playerTypes.HUMAN];
                 game.addPlayer(...playerArgs);
                 game.addPlayer(...playerArgs);
-                expect(game.players[1].type).toEqual(Game.playerTypes.HUMAN);
+                expect(game.players[1].isComputer).toBe(false);
+            });
+            it("Can add computer to player list", () => {
+                game.addPlayer(...playerArgs);
+                game.addComputer(...playerArgs);
+                expect(game.players[1].isComputer).toBe(true);
             });
         });
 
@@ -36,8 +41,9 @@ describe("Game driver", () => {
 
         describe("Game flow", () => {
             beforeEach(() => {
-                game.addPlayer(10, 10, Game.playerTypes.HUMAN);
-                game.addPlayer(10, 10, Game.playerTypes.COMPUTER);
+                const boardArgs = [10, 10];
+                game.addPlayer(...boardArgs);
+                game.addComputer(...boardArgs);
             });
 
             describe("Turns", () => {
@@ -48,14 +54,10 @@ describe("Game driver", () => {
                     expect(game.nextTurn).toEqual(1);
                 });
                 it("Can retrieve current player", () => {
-                    expect(game.currentPlayer.type).toEqual(
-                        Game.playerTypes.HUMAN,
-                    );
+                    expect(game.currentPlayer.isComputer).toBe(false);
                 });
                 it("Can retrieve next player", () => {
-                    expect(game.nextPlayer.type).toEqual(
-                        Game.playerTypes.COMPUTER,
-                    );
+                    expect(game.nextPlayer.isComputer).toBe(true);
                 });
                 it("Can switch turns", () => {
                     game.switchTurn();

@@ -1,15 +1,13 @@
-import Gameboard from "./board";
+import Board from "./board";
 import Ship from "./ship";
 
 export default class Player {
     /** Create a player of the game, with their own board
-     * @param {"human"|"computer"} type
-     * @param {Gameboard} board
+     * @param {Board} board
+     * @param {string} name
      */
-    constructor(type, board, name) {
-        checkType(type);
+    constructor(board, name) {
         checkBoard(board);
-        this.#type = type;
         this.#board = board;
         this.name = name !== undefined ? name : "no name";
     }
@@ -29,13 +27,14 @@ export default class Player {
         return this.#board;
     }
 
+    get isComputer() {
+        return false;
+    }
+
     /** Takes in a Player obj and places ships randomly on their board */
     placeShipsRandomly() {
         const shipLengths = [5, 4, 3, 2, 2];
-        const rotations = [
-            Gameboard.rotations.DOWN,
-            Gameboard.rotations.ACROSS,
-        ];
+        const rotations = [Board.rotations.DOWN, Board.rotations.ACROSS];
 
         let shipsAmount = 0;
         while (shipsAmount < 5) {
@@ -53,23 +52,9 @@ export default class Player {
             }
         }
     }
-
-    // Static properties
-
-    static types = {
-        HUMAN: "human",
-        COMPUTER: "computer",
-    };
-}
-
-function checkType(type) {
-    for (const key in Player.types) {
-        if (Player.types[key] === type) return;
-    }
-    throw new TypeError("Player type must be 'human' or 'computer'");
 }
 
 function checkBoard(board) {
-    if (!(board instanceof Gameboard))
+    if (!(board instanceof Board))
         throw new TypeError("Board must be an instance of Gameboard");
 }
