@@ -5,7 +5,6 @@ import ShipObj from "./model/ship";
 
 // Components
 import BoardDom from "./components/board";
-import Player from "./model/player";
 
 // Global functions
 let updateMessage;
@@ -69,13 +68,13 @@ function createGame(boardWidth, boardHeight) {
             createPlayer(
                 boardWidth,
                 boardHeight,
-                Player.types.HUMAN,
+                PlayerObj.types.HUMAN,
                 "Player One",
             ),
             createPlayer(
                 boardWidth,
                 boardHeight,
-                Player.types.COMPUTER,
+                PlayerObj.types.COMPUTER,
                 "Player Two",
             ),
         ],
