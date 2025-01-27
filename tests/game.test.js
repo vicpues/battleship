@@ -44,7 +44,7 @@ describe("Game driver", () => {
                 it("Can read current turn index", () => {
                     expect(game.turnIndex).toEqual(0);
                 });
-                it('Can deduce next turn', ()=>{
+                it("Can deduce next turn", () => {
                     expect(game.nextTurn).toEqual(1);
                 });
                 it("Can retrieve current player", () => {
@@ -52,14 +52,16 @@ describe("Game driver", () => {
                         Game.playerTypes.HUMAN,
                     );
                 });
-                it("Can retrieve next player", ()=>{
-                    expect(game.nextPlayer.type).toEqual(Game.playerTypes.COMPUTER);
+                it("Can retrieve next player", () => {
+                    expect(game.nextPlayer.type).toEqual(
+                        Game.playerTypes.COMPUTER,
+                    );
                 });
                 it("Can switch turns", () => {
                     game.switchTurn();
                     expect(game.turnIndex).toEqual(1);
                 });
-                it('Can read turns since game start', ()=>{
+                it("Can read turns since game start", () => {
                     for (let i = 0; i < 3; i++) game.switchTurn();
                     expect(game.turn).toEqual(3);
                 });

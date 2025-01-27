@@ -13,7 +13,7 @@ export default function startGame() {
     game.addPlayer(10, 10, Game.playerTypes.HUMAN);
     game.addPlayer(10, 10, Game.playerTypes.COMPUTER);
 
-    dom.players[0].element.classList.toggle("current");
+    dom.markCurrentPlayer(0);
 
     for (let i = 0; i < game.players.length; i++) {
         const playerObj = game.players[i];
@@ -58,11 +58,11 @@ function createAttackHandler(playerDom, playerObj) {
 
             if (game.someoneLost()) {
                 victoryHandler(game.currentPlayer);
-            } else {
-                dom.players[game.turnIndex].element.classList.toggle("current");
-                game.switchTurn();
-                dom.players[game.turnIndex].element.classList.toggle("current");
+                return;
             }
+
+            game.switchTurn();
+            dom.markCurrentPlayer(game.turnIndex);
         } catch (e) {
             if (e instanceof GameError) {
                 dom.updateMessage(e.message);

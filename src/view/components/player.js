@@ -10,6 +10,16 @@ export default class PlayerDom {
         this.board = new BoardDom(this.cache.board());
     }
 
+    /** Gives this player the class of `"current"` */
+    addCurrent() {
+        this.element.classList.add("current");
+    }
+
+    /** Removes the `"current"` class from this player */
+    removeCurrent() {
+        this.element.classList.remove("current");
+    }
+
     /** Methods to re-cache individual elements */
     cache = {
         name: () => this.element.querySelector(".name"),

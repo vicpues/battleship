@@ -22,6 +22,17 @@ export default class Dom {
         return playersArr;
     }
 
+    /** Marks the player at `index` as the current player*/
+    markCurrentPlayer(index) {
+        for (let i = 0; i < this.players.length; i++) {
+            if (i === index) {
+                this.players[i].addCurrent();
+            } else {
+                this.players[i].removeCurrent();
+            }
+        }
+    }
+
     /** Displays the `message` string in the message element of the dom */
     updateMessage(message) {
         this.message.textContent = message;
