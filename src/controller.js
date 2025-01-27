@@ -59,9 +59,9 @@ function createAttackHandler(playerDom, playerObj) {
             if (game.someoneLost()) {
                 victoryHandler(game.currentPlayer);
             } else {
-                dom.players[game.turn].element.classList.toggle("current");
+                dom.players[game.turnIndex].element.classList.toggle("current");
                 game.switchTurn();
-                dom.players[game.turn].element.classList.toggle("current");
+                dom.players[game.turnIndex].element.classList.toggle("current");
             }
         } catch (e) {
             if (e instanceof GameError) {

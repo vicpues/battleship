@@ -41,25 +41,35 @@ describe("Game driver", () => {
             });
 
             describe("Turns", () => {
-                it("Can read current turn", () => {
-                    expect(game.turn).toEqual(0);
+                it("Can read current turn index", () => {
+                    expect(game.turnIndex).toEqual(0);
+                });
+                it('Can deduce next turn', ()=>{
+                    expect(game.nextTurn).toEqual(1);
                 });
                 it("Can retrieve current player", () => {
                     expect(game.currentPlayer.type).toEqual(
                         Game.playerTypes.HUMAN,
                     );
                 });
+                it("Can retrieve next player", ()=>{
+                    expect(game.nextPlayer.type).toEqual(Game.playerTypes.COMPUTER);
+                });
                 it("Can switch turns", () => {
                     game.switchTurn();
-                    expect(game.turn).toEqual(1);
+                    expect(game.turnIndex).toEqual(1);
+                });
+                it('Can read turns since game start', ()=>{
+                    for (let i = 0; i < 3; i++) game.switchTurn();
+                    expect(game.turn).toEqual(3);
                 });
                 it("Forbids changing turn manually", () => {
-                    expect(() => (game.turn = 2)).toThrow();
+                    expect(() => (game.turnIndex = 2)).toThrow();
                 });
                 it("Turn does not overflow past the amount of players", () => {
                     game.switchTurn();
                     game.switchTurn();
-                    expect(game.turn).toEqual(0);
+                    expect(game.turnIndex).toEqual(0);
                 });
             });
 
